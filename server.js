@@ -44,12 +44,21 @@ const run = async() =>{
             res.send(user);
         })
 
-        
+
         //POST METHOD TO ADD A USER TO THE DATABASE 
         app.post('/users', async(req, res) =>{
             const newUser = req.body;
             const results = await usersCollection.insertOne(newUser);
             res.send(results);
+
+        })
+
+        //DELETE METHOD TO DELETE A USER FROM DATABASE
+        app.delete('/users/:id', async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const results = await usersCollection.deleteOne(query);
+            res.send(results); 
 
         })
 
