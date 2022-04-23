@@ -29,7 +29,6 @@ const run = async() =>{
            res.send('Hello Server')
         })
 
-        
         //ENDPOINT TO FETCH ALL THE USER DATA FROM DATABASE 
         app.get('/users', async(req, res) => {
             const query = {}; 
@@ -40,11 +39,18 @@ const run = async() =>{
         //DYNAMIC ENDPOINT TO FETCH A SPECIFIC USER BY ID 
         app.get('/users/:id', async(req,res)=>{
             const id = req.params.id;
-
             const query = {_id: ObjectId(id)}; //specifying the id object with the similar format from the database
-
             const user = await usersCollection.findOne(query);
             res.send(user);
+        })
+
+        
+        //POST METHOD TO ADD A USER TO THE DATABASE 
+        app.post('/users', async(req, res) =>{
+            const newUser = req.body;
+            const results = await usersCollection.insertOne(newUser);
+            res.send(results);
+
         })
 
 
